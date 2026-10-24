@@ -5,6 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yai Nori — Sweet & Lovely Review Space</title>
 
+    <style>
+        body.splash-locked {
+            overflow: hidden !important;
+        }
+
+        /* Critical CSS สำหรับ #splashScreen ให้แสดงผลเต็มจอตั้งแต่วินาทีแรกโดยอัตโนมัติ (ไร้กรอบขาว ทับบนพื้นหลังไล่สี) */
+        #splashScreen {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            box-sizing: border-box;
+            overflow-y: auto;
+            z-index: 99999;
+            background-color: #FDF8FC;
+            background-image: 
+                radial-gradient(at 20% 20%, rgba(252, 231, 243, 0.95) 0px, transparent 55%), 
+                radial-gradient(at 80% 80%, rgba(243, 232, 255, 0.95) 0px, transparent 55%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem;
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+        }
+
+        #splashScreen.splash-fade-out {
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transform: scale(1.02) !important;
+            pointer-events: none !important;
+        }
+
+        body.splash-locked > :not(#splashScreen):not(script):not(audio) { visibility: hidden; }
+        #splashScreen > div { background: transparent; box-shadow: none; }
+        #splashSlowBox.hidden { display: none; }
+        #musicToggle { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 64px); left: calc(env(safe-area-inset-left, 0px) + 12px); z-index: 10000; border: 1px solid #F9A8D4; border-radius: 999px; padding: 9px 12px; min-height: 44px; background: #FCE7F3; color: #9333EA; font: inherit; font-size: 12px; cursor: pointer; }
+        #musicNotice { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 114px); left: 12px; z-index: 10000; max-width: 230px; padding: 8px 12px; border-radius: 14px; background: #FCE7F3; color: #5B3E60; font-size: 12px; }
+        #musicNotice:empty { display: none; }
+    </style>
     <!-- Google Fonts: Mali, Anuphan, Cormorant Garamond -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,42 +106,6 @@
                 radial-gradient(at 20% 80%, rgba(243, 232, 255, 0.6) 0px, transparent 50%),
                 radial-gradient(at 80% 90%, rgba(252, 231, 243, 0.7) 0px, transparent 50%);
             background-attachment: fixed;
-        }
-
-        body.splash-locked {
-            overflow: hidden !important;
-        }
-
-        /* Critical CSS สำหรับ #splashScreen ให้แสดงผลเต็มจอตั้งแต่วินาทีแรกโดยอัตโนมัติ (ไร้กรอบขาว ทับบนพื้นหลังไล่สี) */
-        #splashScreen {
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            width: 100vw;
-            height: 100dvh;
-            z-index: 99999;
-            background-color: #FDF8FC;
-            background-image: 
-                radial-gradient(at 20% 20%, rgba(252, 231, 243, 0.95) 0px, transparent 55%), 
-                radial-gradient(at 80% 80%, rgba(243, 232, 255, 0.95) 0px, transparent 55%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1.25rem;
-            opacity: 1;
-            visibility: visible;
-            transform: scale(1);
-            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
-        }
-
-        #splashScreen.splash-fade-out {
-            opacity: 0 !important;
-            visibility: hidden !important;
-            transform: scale(1.02) !important;
-            pointer-events: none !important;
         }
 
         .logo-frame {
@@ -871,6 +882,8 @@
             if (isSplashRunning) return;
             isSplashRunning = true;
 
+            // Count visible time only after the browser has painted the existing splash.
+            await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
             const startTime = performance.now();
             const splashScreen = document.getElementById('splashScreen');
             const slowBox = document.getElementById('splashSlowBox');
@@ -908,7 +921,7 @@
                     lucide.createIcons();
                 }
 
-                await Promise.all([
+                const imageResults = await Promise.all([
                     preloadEssentialImage(shopData.logo || DEFAULT_SHOP_DATA.logo, 1200),
                     preloadEssentialImage('https://i.postimg.cc/QxgFpRXp/IMG-3742.png', 1200),
                     new Promise(r => setTimeout(r, 500))
@@ -921,7 +934,13 @@
                 await new Promise(r => setTimeout(r, remaining));
 
                 clearTimeout(splashSlowTimer);
-                forceDismissSplash();
+                if (imageResults.some(result => result && result.ok === false)) {
+                    if (errorMsg) errorMsg.textContent = 'รูปบางส่วนโหลดไม่สำเร็จ กดลองใหม่ หรือเข้าสู่หน้าร้านได้ค่ะ';
+                    if (slowBox) slowBox.classList.remove('hidden');
+                    updateSplashStage(3, totalSteps, 'เตรียมร้านแล้ว แต่โหลดรูปบางส่วนไม่ได้');
+                } else {
+                    forceDismissSplash();
+                }
             } catch (err) {
                 clearTimeout(splashSlowTimer);
                 if (slowBox) {
@@ -946,7 +965,7 @@
         }
 
         function retrySplashLoading() {
-            isSplashRunning = false;
+            if (isSplashRunning) return;
             runRealBootSequence();
         }
 
@@ -957,12 +976,7 @@
             runRealBootSequence();
         }
 
-        window.addEventListener('pageshow', (event) => {
-            if (event.persisted) {
-                isSplashRunning = false;
-                runRealBootSequence();
-            }
-        });
+        // Returning from browser history does not restart the splash or music.
 
         function loadStateFromStorage() {
             try {
@@ -1449,6 +1463,72 @@
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#039;');
         }
+    </script>
+    <!-- Background music: supplied MP3, kept beside index.html. -->
+    <audio id="backgroundMusic" loop preload="none" playsinline src="music.mp3"></audio>
+    <button id="musicToggle" type="button" aria-label="เปิดเพลงพื้นหลัง" aria-pressed="false">♫ เปิดเพลง</button>
+    <div id="musicNotice" role="status" aria-live="polite"></div>
+    <script>
+    (() => {
+        const audio = document.getElementById('backgroundMusic');
+        const button = document.getElementById('musicToggle');
+        const notice = document.getElementById('musicNotice');
+        const key = 'yainori_music_paused';
+        let pausedByUser = false, pending = false, failed = false;
+        try { pausedByUser = localStorage.getItem(key) === 'yes'; } catch (_) {}
+        audio.volume = 0.3;
+        function sync() {
+            const playing = !audio.paused && !audio.ended;
+            button.textContent = playing ? '♫ หยุดเพลง' : '♫ เปิดเพลง';
+            button.setAttribute('aria-pressed', String(playing));
+            button.setAttribute('aria-label', playing ? 'หยุดเพลงพื้นหลัง' : 'เปิดเพลงพื้นหลัง');
+        }
+        function remember() {
+            try { localStorage.setItem(key, pausedByUser ? 'yes' : 'no'); } catch (_) {}
+        }
+        async function play() {
+            if (pending || !audio.paused) return;
+            pending = true;
+            notice.textContent = '';
+            try {
+                await audio.play();
+                if (pausedByUser) audio.pause();
+                failed = false;
+            } catch (error) {
+                if (error.name !== 'NotAllowedError' && error.name !== 'AbortError') {
+                    failed = true;
+                    notice.textContent = 'โหลดเพลงไม่ได้ กรุณาตรวจว่าใส่ไฟล์ music.mp3 แล้ว และแตะเปิดเพลงเพื่อลองใหม่';
+                }
+            } finally { pending = false; sync(); }
+        }
+        button.addEventListener('click', () => {
+            if (pending || !audio.paused) {
+                pausedByUser = true;
+                audio.pause();
+                remember();
+                sync();
+            } else {
+                pausedByUser = false;
+                remember();
+                if (failed) audio.load();
+                void play();
+            }
+        });
+        function firstGesture(event) {
+            if (event.target.closest && event.target.closest('#musicToggle')) return;
+            document.removeEventListener('click', firstGesture);
+            if (!pausedByUser && !failed) void play();
+        }
+        document.addEventListener('click', firstGesture);
+        audio.addEventListener('playing', sync);
+        audio.addEventListener('pause', sync);
+        audio.addEventListener('error', () => {
+            failed = true;
+            notice.textContent = 'โหลดเพลงไม่ได้ กรุณาตรวจไฟล์ music.mp3 แล้วแตะเปิดเพลงเพื่อลองใหม่';
+            sync();
+        });
+        sync();
+    })();
     </script>
 </body>
 </html>
