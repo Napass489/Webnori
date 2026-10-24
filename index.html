@@ -52,7 +52,6 @@
         #musicNotice { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 114px); left: 12px; z-index: 10000; max-width: 230px; padding: 8px 12px; border-radius: 14px; background: #FCE7F3; color: #5B3E60; font-size: 12px; }
         #musicNotice:empty { display: none; }
     </style>
-
     <!-- Google Fonts: Mali, Anuphan, Cormorant Garamond -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -63,9 +62,6 @@
 
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Supabase JS SDK v2 -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
         tailwind.config = {
@@ -286,7 +282,7 @@
                 </div>
             </div>
 
-            <h1 id="splashShopTitle" class="font-heading text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-pink-500 bg-clip-text text-transparent mt-3">
+            <h1 class="font-heading text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-600 via-purple-600 to-pink-500 bg-clip-text text-transparent mt-3">
                 Yai Nori
             </h1>
 
@@ -334,24 +330,16 @@
             <div class="flex items-center gap-2">
                 <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-pink-100 text-pink-600 text-xs">🎀</span>
                 <span class="text-xs sm:text-sm font-medium text-pastel-text">
-                    Yai Nori <span class="text-xs text-pastel-muted">Review Space</span>
-                </span>
-                <span id="dbStatusBadge" class="hidden items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> ออนไลน์
+                    โหมดการใช้งาน <span class="text-xs text-pastel-muted">(Demo Mode)</span>
                 </span>
             </div>
 
-            <div class="flex items-center gap-2">
-                <div class="flex items-center gap-1.5 bg-purple-50/80 p-1 rounded-full border border-purple-100">
-                    <button id="btnCustomerMode" onclick="switchMode('customer')" class="px-3.5 py-1 rounded-full text-xs sm:text-sm font-medium transition-all bg-white text-pink-600 shadow-sm flex items-center gap-1.5 cursor-pointer">
-                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> หน้าบ้าน (ลูกค้า)
-                    </button>
-                    <button id="btnAdminMode" onclick="switchMode('admin')" class="px-3.5 py-1 rounded-full text-xs sm:text-sm font-medium transition-all text-pastel-muted hover:text-purple-700 flex items-center gap-1.5 cursor-pointer">
-                        <i data-lucide="crown" class="w-3.5 h-3.5"></i> หลังบ้าน (แอดมิน)
-                    </button>
-                </div>
-                <button id="btnAdminLogout" onclick="handleAdminLogout()" class="hidden px-3 py-1.5 rounded-full bg-white hover:bg-red-50 text-pastel-muted hover:text-red-500 border border-pink-100 text-xs font-medium transition items-center gap-1 cursor-pointer" title="ออกจากระบบแอดมิน">
-                    <i data-lucide="log-out" class="w-3.5 h-3.5"></i> ออก
+            <div class="flex items-center gap-2 bg-purple-50/80 p-1 rounded-full border border-purple-100">
+                <button id="btnCustomerMode" onclick="switchMode('customer')" class="px-3.5 py-1 rounded-full text-xs sm:text-sm font-medium transition-all bg-white text-pink-600 shadow-sm flex items-center gap-1.5 cursor-pointer">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> หน้าบ้าน (ลูกค้า)
+                </button>
+                <button id="btnAdminMode" onclick="switchMode('admin')" class="px-3.5 py-1 rounded-full text-xs sm:text-sm font-medium transition-all text-pastel-muted hover:text-purple-700 flex items-center gap-1.5 cursor-pointer">
+                    <i data-lucide="crown" class="w-3.5 h-3.5"></i> หลังบ้าน (แอดมิน)
                 </button>
             </div>
         </div>
@@ -365,18 +353,16 @@
                     <i data-lucide="settings-2" class="w-4 h-4"></i>
                 </span>
                 <div>
-                    <p class="text-xs sm:text-sm font-semibold text-purple-900">
-                        โหมดจัดการหลังบ้าน (Admin Dashboard) <span id="adminEmailDisplay" class="font-normal text-xs text-purple-600"></span>
-                    </p>
-                    <p class="text-xs text-purple-700/80">แก้ไขข้อมูลร้าน โลโก้ ซ่อน/ลบรีวิว หรือตั้งค่าระบบอนุมัติรีวิว (บันทึกฐานข้อมูลออนไลน์)</p>
+                    <p class="text-xs sm:text-sm font-semibold text-purple-900">โหมดจัดการหลังบ้าน (Admin Dashboard Demo)</p>
+                    <p class="text-xs text-purple-700/80">แก้ไขข้อมูลร้าน โลโก้ ซ่อน/ลบรีวิว หรือตั้งค่าระบบอนุมัติรีวิว (บันทึกในเครื่องชั่วคราว)</p>
                 </div>
             </div>
             <div class="flex items-center gap-2 shrink-0">
                 <button onclick="openShopEditModal()" class="px-3.5 py-1.5 rounded-full bg-white hover:bg-pink-50 text-pink-600 border border-pink-200 text-xs font-semibold shadow-sm transition flex items-center gap-1.5 cursor-pointer">
                     <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> แก้ไขข้อมูลร้าน & รูป
                 </button>
-                <button onclick="refreshAllData()" id="btnRefreshData" class="px-3 py-1.5 rounded-full bg-white/70 hover:bg-white text-pastel-muted hover:text-purple-700 border border-purple-100 text-xs transition flex items-center gap-1 cursor-pointer">
-                    <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> รีเฟรชข้อมูล
+                <button onclick="resetDemoData()" class="px-3 py-1.5 rounded-full bg-white/70 hover:bg-white text-pastel-muted hover:text-red-500 border border-purple-100 text-xs transition flex items-center gap-1 cursor-pointer">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i> รีเซ็ต
                 </button>
             </div>
         </div>
@@ -399,7 +385,7 @@
                         <img id="shopLogoImg" 
                              src="https://i.postimg.cc/65THTJC5/IMG-3735.png" 
                              alt="Yai Nori Logo" 
-                             onerror="this.onerror=null; this.src='https://placehold.co/300x300/FCE7F3/DB2777?text=Yai+Nori';"
+                             onerror="this.onerror=null; this.src='https://placehold.co/300x300/FCE7F3/DB2777?text=Yai+Nori+(Demo)';"
                              class="w-full h-full object-cover rounded-full bg-white shadow-inner">
                     </div>
                     <div class="absolute -top-1 -right-1 w-9 h-9 rounded-full bg-pink-100 border-2 border-white shadow-md flex items-center justify-center text-pink-500 text-base animate-heart-float pointer-events-none" title="Lovely Shop">
@@ -457,7 +443,7 @@
                 <div class="bg-gradient-to-b from-white to-pink-50/60 p-4 sm:p-5 rounded-3xl border border-pink-100 shadow-sm text-center flex flex-col items-center justify-center relative overflow-hidden group hover:border-pink-300 transition">
                     <span class="text-xs sm:text-sm font-heading font-semibold text-pastel-muted mb-1">คะแนนร้าน</span>
                     <div class="flex items-baseline gap-1.5 my-0.5">
-                        <span id="avgRatingDisplay" class="font-heading text-2xl sm:text-4xl font-bold text-pink-600">0.0</span>
+                        <span id="avgRatingDisplay" class="font-heading text-2xl sm:text-4xl font-bold text-pink-600">5.0</span>
                         <span class="text-xs text-pastel-muted">/ 5</span>
                     </div>
                     <div id="avgStarsDisplay" class="flex items-center gap-0.5 text-amber-400 mt-1 text-sm"></div>
@@ -555,7 +541,7 @@
     <footer class="mt-auto py-6 text-center text-xs text-pastel-muted border-t border-pink-100/60 bg-white/40 backdrop-blur-sm">
         <div class="max-w-3xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
             <p class="font-heading font-medium text-pastel-text">🎀 Yai Nori — Sweet & Princess Review Space</p>
-            <p>© Yai Nori Official • All Rights Reserved</p>
+            <p>ระบบเว็บไซต์ตัวอย่าง (Demo Version) • ออกแบบตามโครงร่างต้นฉบับ</p>
         </div>
     </footer>
 
@@ -592,13 +578,13 @@
 
                 <div>
                     <label for="reviewerName" class="block text-xs font-semibold text-pastel-text mb-1.5">ชื่อของคุณหนู / ชื่อเล่น <span class="text-pink-500">*</span></label>
-                    <input type="text" id="reviewerName" required maxlength="60" placeholder="เช่น คุณหนูโรส, น้องพลอยใส..." 
+                    <input type="text" id="reviewerName" required placeholder="เช่น คุณหนูโรส, น้องพลอยใส..." 
                            class="w-full px-4 py-2.5 rounded-xl border border-pink-200 focus:border-pink-400 focus:ring-2 focus:ring-pink-100 outline-none text-sm transition bg-white">
                 </div>
 
                 <div>
                     <label for="reviewTag" class="block text-xs font-semibold text-pastel-text mb-1.5">บริการที่ซื้อขายกับร้าน <span class="text-pink-500">*</span></label>
-                    <input type="text" id="reviewTag" required maxlength="80" list="servicePresetList" placeholder="พิมพ์ชื่อสินค้าหรือบริการที่อุดหนุน..." 
+                    <input type="text" id="reviewTag" required list="servicePresetList" placeholder="พิมพ์ชื่อสินค้าหรือบริการที่อุดหนุน..." 
                            class="w-full px-4 py-2.5 rounded-xl border border-pink-200 focus:border-pink-400 focus:ring-2 focus:ring-pink-100 outline-none text-sm transition bg-white text-pastel-text">
                     <datalist id="servicePresetList">
                         <option value="🛍️ สั่งซื้อสินค้าหน้าร้าน"></option>
@@ -610,21 +596,23 @@
 
                 <div>
                     <label for="reviewComment" class="block text-xs font-semibold text-pastel-text mb-1.5">ข้อความรีวิว <span class="text-pink-500">*</span></label>
-                    <textarea id="reviewComment" rows="3" required maxlength="1000" placeholder="เล่าความประทับใจให้เราฟังหน่อยนะคะ..." 
+                    <textarea id="reviewComment" rows="3" required placeholder="เล่าความประทับใจให้เราฟังหน่อยนะคะ..." 
                               class="w-full px-4 py-2.5 rounded-xl border border-pink-200 focus:border-pink-400 focus:ring-2 focus:ring-pink-100 outline-none text-sm transition bg-white resize-none"></textarea>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-pastel-text mb-1.5">แนบรูปภาพความน่ารัก (ถ้ามี • ไม่เกิน 3MB)</label>
+                    <label class="block text-xs font-semibold text-pastel-text mb-1.5">แนบรูปภาพความน่ารัก (ถ้ามี)</label>
                     <div class="flex items-center gap-3">
-                        <label class="flex-1 cursor-pointer border-2 border-dashed border-pink-200 hover:border-pink-400 bg-pink-50/30 rounded-xl p-3.5 text-center transition">
-                            <input type="file" id="reviewImageInput" accept="image/jpeg,image/png,image/webp,image/gif" onchange="previewCustomerImage(event)" class="hidden">
+                        <label class="flex-1 cursor-pointer border-2 border-dashed border-pink-200 hover:border-pink-400 bg-pink-50/30 rounded-xl p-3 text-center transition">
+                            <input type="file" id="reviewImageInput" accept="image/*" onchange="previewCustomerImage(event)" class="hidden">
                             <div class="flex flex-col items-center justify-center gap-1 text-pastel-muted">
                                 <i data-lucide="image-plus" class="w-5 h-5 text-pink-400"></i>
-                                <span class="text-xs font-medium text-pastel-text">คลิกเพื่อเลือกรูปภาพประกอบรีวิว</span>
-                                <span class="text-[11px] text-pastel-muted">รองรับไฟล์ JPG, PNG, WEBP, GIF ขนาดไม่เกิน 3MB</span>
+                                <span class="text-xs">คลิกเพื่อเลือกรูปภาพ หรือใช้รูป Demo</span>
                             </div>
                         </label>
+                        <button type="button" onclick="useSampleReviewImage()" class="px-3 py-3 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-xs font-medium shrink-0 transition cursor-pointer">
+                            ใช้รูป Demo ✨
+                        </button>
                     </div>
                     <div id="imagePreviewWrapper" class="hidden mt-3 relative inline-block">
                         <img id="imagePreview" src="" alt="Preview" class="h-24 w-24 object-cover rounded-xl border-2 border-pink-200 shadow-sm">
@@ -635,8 +623,8 @@
                 </div>
 
                 <div class="pt-2">
-                    <button type="submit" id="submitReviewBtn" class="w-full bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 disabled:opacity-60 text-white font-heading font-semibold py-3 rounded-full shadow-md text-sm sm:text-base flex items-center justify-center gap-2 transition cursor-pointer">
-                        <i data-lucide="send" class="w-4 h-4"></i> <span>ส่งรีวิวเลยค่ะ</span>
+                    <button type="submit" class="w-full bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 text-white font-heading font-semibold py-3 rounded-full shadow-md text-sm sm:text-base flex items-center justify-center gap-2 transition cursor-pointer">
+                        <i data-lucide="send" class="w-4 h-4"></i> ส่งรีวิวเลยค่ะ
                     </button>
                 </div>
             </form>
@@ -663,13 +651,13 @@
 
             <form id="shopEditForm" onsubmit="saveShopInfo(event)" class="space-y-4">
                 <div class="bg-purple-50/50 p-4 rounded-2xl border border-purple-100">
-                    <label class="block text-xs font-semibold text-pastel-text mb-2">รูปภาพโลโก้ร้าน (URL หรืออัปโหลดไฟล์ไม่เกิน 3MB)</label>
+                    <label class="block text-xs font-semibold text-pastel-text mb-2">รูปภาพโลโก้ร้าน (URL หรืออัปโหลดไฟล์)</label>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <input type="text" id="editLogoUrl" placeholder="วางลิงก์รูปภาพ https://..." 
                                class="flex-1 px-3.5 py-2 rounded-xl border border-purple-200 text-xs outline-none focus:border-purple-400 bg-white">
                         <label class="cursor-pointer px-3.5 py-2 rounded-xl bg-white border border-purple-200 hover:bg-purple-50 text-purple-700 text-xs font-medium text-center shrink-0 transition">
-                            <span id="adminLogoUploadText">อัปโหลดรูปจากเครื่อง</span>
-                            <input type="file" id="adminLogoFileInput" accept="image/jpeg,image/png,image/webp,image/gif" onchange="handleAdminLogoUpload(event)" class="hidden">
+                            อัปโหลดรูปจากเครื่อง
+                            <input type="file" accept="image/*" onchange="handleAdminLogoUpload(event)" class="hidden">
                         </label>
                     </div>
                 </div>
@@ -710,7 +698,7 @@
                     <button type="button" onclick="closeShopEditModal()" class="px-5 py-2.5 rounded-full text-xs font-semibold text-pastel-muted hover:bg-gray-100 transition cursor-pointer">
                         ยกเลิก
                     </button>
-                    <button type="submit" id="saveShopBtn" class="bg-gradient-to-r from-purple-500 to-pink-500 disabled:opacity-60 text-white px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold shadow-md transition cursor-pointer">
+                    <button type="submit" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2.5 rounded-full text-xs sm:text-sm font-semibold shadow-md transition cursor-pointer">
                         บันทึกข้อมูลร้าน
                     </button>
                 </div>
@@ -718,42 +706,7 @@
         </div>
     </div>
 
-    <!-- MODAL 3: ล็อกอินแอดมิน (Email & Password) -->
-    <div id="adminLoginModal" class="fixed inset-0 z-[8888] hidden items-center justify-center p-4 bg-purple-950/40 backdrop-blur-sm">
-        <div class="bg-white rounded-[2rem] max-w-sm w-full p-6 sm:p-8 shadow-2xl border-2 border-purple-100 relative modal-animate-in">
-            <button onclick="closeAdminLoginModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-purple-50 hover:bg-purple-100 text-purple-600 flex items-center justify-center transition cursor-pointer">
-                <i data-lucide="x" class="w-4 h-4"></i>
-            </button>
-
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mx-auto mb-3 shadow-sm">
-                    <i data-lucide="crown" class="w-6 h-6"></i>
-                </div>
-                <h2 class="font-heading text-xl font-bold text-pastel-text">เข้าสู่ระบบแอดมิน</h2>
-                <p class="text-xs text-pastel-muted mt-1">สำหรับเจ้าของร้าน Yai Nori เพื่อจัดการรีวิว</p>
-            </div>
-
-            <form id="adminLoginForm" onsubmit="handleAdminLogin(event)" class="space-y-4">
-                <div>
-                    <label for="adminEmailInput" class="block text-xs font-semibold text-pastel-text mb-1">อีเมลแอดมิน</label>
-                    <input type="email" id="adminEmailInput" required placeholder="admin@example.com" 
-                           class="w-full px-4 py-2.5 rounded-xl border border-purple-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none text-sm bg-white">
-                </div>
-
-                <div>
-                    <label for="adminPasswordInput" class="block text-xs font-semibold text-pastel-text mb-1">รหัสผ่าน</label>
-                    <input type="password" id="adminPasswordInput" required placeholder="••••••••" 
-                           class="w-full px-4 py-2.5 rounded-xl border border-purple-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-100 outline-none text-sm bg-white">
-                </div>
-
-                <button type="submit" id="adminLoginSubmitBtn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 disabled:opacity-60 text-white font-heading font-semibold py-2.5 rounded-full shadow-md text-sm transition cursor-pointer">
-                    เข้าสู่ระบบ
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- MODAL 4: Lightbox ดูรูปใหญ่ -->
+    <!-- MODAL 3: Lightbox ดูรูปใหญ่ -->
     <div id="lightboxModal" onclick="closeLightbox()" class="fixed inset-0 z-[9999] hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm cursor-zoom-out">
         <div class="relative max-w-lg w-full bg-white p-3 rounded-3xl shadow-2xl modal-animate-in" onclick="event.stopPropagation()">
             <button onclick="closeLightbox()" class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center shadow-md cursor-pointer">
@@ -767,16 +720,6 @@
     <div id="toastContainer" class="fixed bottom-24 right-5 z-[9999] flex flex-col gap-2 max-w-xs w-full pointer-events-none"></div>
 
     <script>
-        // ============================================================================
-        // 🔑 การตั้งค่าเชื่อมต่อ SUPABASE จริง (Project URL, Publishable Key และ Admin UID)
-        // ============================================================================
-        const SUPABASE_URL = 'https://gffkovgwljhvwrzirifk.supabase.co';
-        const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_HFuCtONJUW1npZelA7HWWQ_-gYSdhfE';
-        const ADMIN_UID = 'a550625e-c4a1-425b-bc6a-01997e513d73';
-        const STORAGE_BUCKET = 'yainori-media';
-        const MAX_IMAGE_SIZE_BYTES = 3 * 1024 * 1024; // จำกัดขนาดรูป 3MB
-        const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-
         const DEFAULT_SHOP_DATA = {
             name: 'Yai Nori',
             description: 'พื้นที่รวบรวมความประทับใจและรีวิวสุดน่ารักจากลูกค้าคนพิเศษของ Yai Nori ✨ คัดสรรความละมุน ใส่ใจทุกออเดอร์ เพื่อคุณหนูทุกคนค่ะ 🎀',
@@ -788,260 +731,107 @@
             requireApproval: false
         };
 
-        let supabaseClient = null;
-        let currentAdminUser = null;
+        const DEFAULT_REVIEWS = [
+            {
+                id: 101,
+                name: 'คุณหนูมิลิน (Milin)',
+                rating: 5,
+                tag: '🎀 เซ็ตของขวัญ Princess Box',
+                comment: 'ได้รับของแล้วนะคะ น่ารักตรงปกไม่จกตาเลยค่ะ สีชมพูพาสเทลละมุนใจมาก เปิดกล่องมาหอมฟุ้งเลย ไว้มาอุดหนุนใหม่แน่นอนค่า 💕',
+                date: 'วันนี้ • 14:20 น.',
+                image: 'https://placehold.co/600x450/FCE7F3/DB2777?text=Yai+Nori+Review+(Demo+1)',
+                reply: 'ขอบคุณคุณหนูมิลินมากๆ เลยนะคะ ดีใจที่ชอบความหอมและความละมุนของทางร้านน้า 🎀✨',
+                approved: true
+            },
+            {
+                id: 102,
+                name: 'Nong Pearwa 🌷',
+                rating: 5,
+                tag: '🛍️ สั่งซื้อสินค้าคอลเลกชันโบว์ชมพู',
+                comment: 'แพ็กเกจจิ้งคือที่สุด! ห่อผูกโบว์มาอย่างดีเหมือนได้แกะกล่องของขวัญเจ้าหญิงเลยค่ะ ประทับใจความใส่ใจของร้าน Yai Nori มากๆ',
+                date: 'เมื่อวานนี้ • 19:05 น.',
+                image: '',
+                reply: '',
+                approved: true
+            },
+            {
+                id: 103,
+                name: 'คุณโรส (Rosemary)',
+                rating: 5,
+                tag: '🌸 บริการพรีออเดอร์สินค้าพิเศษ',
+                comment: 'แอดมินตอบแชทไวและพูดจาน่ารักสุภาพมากๆ ค่ะ ให้คำแนะนำดีสุดๆ ของจริงงานละเอียดเนี๊ยบมาก เอาไปเลย 10 เต็ม 10 ไม่หัก!',
+                date: '2 วันที่แล้ว',
+                image: 'https://placehold.co/600x450/F3E8FF/9333EA?text=Lovely+Package+(Demo+2)',
+                reply: 'งื้อออ ขอบคุณคุณโรสสำหรับกำลังใจนะคะ แอดมินอ่านแล้วยิ้มแก้มปริเลยค่ะ 💖',
+                approved: true
+            },
+            {
+                id: 104,
+                name: 'Bebe Princess 👑',
+                rating: 5,
+                tag: '💌 สั่งซื้อสินค้าพร้อมส่งด่วน',
+                comment: 'สั่งเมื่อวาน วันนี้ได้รับของแล้วค่ะ ส่งไวมากกกก แพ็กกันกระแทกมาแน่นหนาสุดๆ ของข้างในปลอดภัยสวยงามค่ะ',
+                date: '3 วันที่แล้ว',
+                image: '',
+                reply: '',
+                approved: true
+            },
+            {
+                id: 105,
+                name: 'คุณหนูพราว (Praw)',
+                rating: 4,
+                tag: '🎀 เซ็ตแอคเซสซอรี่พาสเทล',
+                comment: 'งานจริงน่ารักปุ๊กปิ๊กมากเลยค่ะ โทนสีม่วงชมพูคือถูกต้องที่สุด ถ่ายรูปขึ้นกล้องมากๆ เพื่อนทักถามพิกัดกันเต็มเลยค่ะ',
+                date: '5 วันที่แล้ว',
+                image: '',
+                reply: 'ขอบคุณที่ช่วยป้ายยาเพื่อนๆ นะคะคุณหนูพราว น่ารักที่สุดเลยค่า 🌸',
+                approved: true
+            },
+            {
+                id: 106,
+                name: 'Chompoo Sweetie',
+                rating: 5,
+                tag: '🛍️ ลูกค้าประจำเหมาคอลเลกชันใหม่',
+                comment: 'หลงรักร้านนี้เข้าเต็มเปา รอบนี้สั่งเป็นรอบที่ 3 แล้วค่ะ มาตรฐานดีเหมือนเดิม มีการ์ดขอบคุณเขียนมือมาให้ด้วย น่ารักใจฟูสุดๆ',
+                date: '1 สัปดาห์ที่แล้ว',
+                image: 'https://placehold.co/600x450/FCE7F3/9333EA?text=Sweet+Gift+(Demo+3)',
+                reply: '',
+                approved: true
+            },
+            {
+                id: 107,
+                name: 'คุณอลิซ (Alice)',
+                rating: 5,
+                tag: '🎂 สั่งจัดเซ็ตของขวัญวันเกิด',
+                comment: 'สั่งไปเป็นของขวัญวันเกิดให้เพื่อน เพื่อนกรี๊ดชอบมากเลยค่ะ ขอบคุณทางร้านที่ช่วยเขียนการ์ดอวยพรน่ารักๆ ให้ด้วยนะคะ ประทับใจมากค่ะ',
+                date: '1 สัปดาห์ที่แล้ว',
+                image: '',
+                reply: 'สุขสันต์วันเกิดเพื่อนคุณอลิซย้อนหลังด้วยนะคะ ดีใจที่ได้เป็นส่วนหนึ่งในช่วงเวลาพิเศษค่ะ 🎂✨',
+                approved: true
+            },
+            {
+                id: 108,
+                name: 'Lalin.K 🩰',
+                rating: 5,
+                tag: '🌸 สินค้าลิมิเต็ด Yai Nori',
+                comment: 'ละมุนตุ้นมากกกก สมมงร้านดัง ใครลังเลอยู่แนะนำเลยค่ะ ไม่ผิดหวังแน่นอน ทั้งคุณภาพและการบริการให้ฟีลลูกคุณหนูสุดๆ ค่ะ',
+                date: '2 สัปดาห์ที่แล้ว',
+                image: '',
+                reply: '',
+                approved: true
+            }
+        ];
+
         let currentMode = 'customer';
         let currentFilter = 'all';
-        let shopData = { ...DEFAULT_SHOP_DATA };
+        let shopData = {};
         let reviewsData = [];
-
-        // ตัวแปรป้องกันการกดซ้ำและจัดการไฟล์รูป
-        let selectedCustomerFile = null;
-        let previewObjectUrl = '';
-        let isSubmittingReview = false;
-        let isSavingShop = false;
-        let isUploadingLogo = false;
-        let isLoggingIn = false;
-        let isTogglingApproval = false;
-        const busyReviewIds = new Set();
-
+        let tempUploadedImage = '';
         let splashSlowTimer = null;
         let splashDismissTimer = null;
         let isSplashRunning = false;
 
         const MIN_SPLASH_DURATION_MS = 1500; // เวลาแสดงขั้นต่ำ 1.5 วินาที
-
-        // ล้างข้อมูล Demo เก่าในเครื่องออกเพื่อไม่ให้ปนกับข้อมูลจริง
-        try {
-            localStorage.removeItem('yainori_shop_demo');
-            localStorage.removeItem('yainori_reviews_demo');
-        } catch (_) {}
-
-        function initSupabaseClient() {
-            if (supabaseClient) return true;
-            try {
-                if (!window.supabase || !window.supabase.createClient) {
-                    throw new Error('ไม่พบไลบรารี Supabase');
-                }
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
-                const badge = document.getElementById('dbStatusBadge');
-                if (badge) {
-                    badge.classList.remove('hidden');
-                    badge.classList.add('inline-flex');
-                }
-                return true;
-            } catch (err) {
-                console.error('Supabase initialization error:', err);
-                return false;
-            }
-        }
-
-        function isAuthorizedAdmin(user) {
-            return Boolean(user && user.id === ADMIN_UID);
-        }
-
-        async function checkAdminSession() {
-            if (!initSupabaseClient()) return;
-            try {
-                const { data: { session }, error } = await supabaseClient.auth.getSession();
-                if (!error && session && session.user) {
-                    if (isAuthorizedAdmin(session.user)) {
-                        applyAdminAuthState(session.user, true);
-                    } else {
-                        await supabaseClient.auth.signOut();
-                        applyAdminAuthState(null, true);
-                    }
-                } else {
-                    applyAdminAuthState(null, true);
-                }
-
-                supabaseClient.auth.onAuthStateChange(async (_event, session) => {
-                    if (session && session.user) {
-                        if (isAuthorizedAdmin(session.user)) {
-                            applyAdminAuthState(session.user, true);
-                        } else {
-                            await supabaseClient.auth.signOut();
-                            applyAdminAuthState(null, true);
-                            showToast('บัญชีนี้ไม่มีสิทธิ์แอดมินของร้านค่ะ 🥺', 'pink');
-                        }
-                    } else {
-                        applyAdminAuthState(null, true);
-                    }
-                });
-            } catch (err) {
-                console.error('Session check error:', err);
-            }
-        }
-
-        function applyAdminAuthState(user, silent = false) {
-            currentAdminUser = isAuthorizedAdmin(user) ? user : null;
-            const logoutBtn = document.getElementById('btnAdminLogout');
-            const emailDisplay = document.getElementById('adminEmailDisplay');
-
-            if (currentAdminUser) {
-                if (logoutBtn) {
-                    logoutBtn.classList.remove('hidden');
-                    logoutBtn.classList.add('inline-flex');
-                }
-                if (emailDisplay) {
-                    emailDisplay.textContent = currentAdminUser.email ? `(${currentAdminUser.email})` : '';
-                }
-            } else {
-                if (logoutBtn) {
-                    logoutBtn.classList.add('hidden');
-                    logoutBtn.classList.remove('inline-flex');
-                }
-                if (emailDisplay) {
-                    emailDisplay.textContent = '';
-                }
-                if (currentMode === 'admin') {
-                    switchMode('customer', silent);
-                }
-            }
-        }
-
-        async function fetchAllDataFromSupabase() {
-            if (!initSupabaseClient()) {
-                throw new Error('ไม่สามารถเชื่อมต่อฐานข้อมูลได้');
-            }
-
-            const [shopResult, reviewsResult] = await Promise.all([
-                supabaseClient
-                    .from('shop_settings')
-                    .select('id, name, description, logo_url, fb_name, fb_url, ig_name, ig_url, require_approval, updated_at')
-                    .eq('id', 1)
-                    .maybeSingle(),
-                supabaseClient
-                    .from('reviews')
-                    .select('id, name, rating, tag, comment, image_url, reply, approved, created_at')
-                    .order('created_at', { ascending: false })
-            ]);
-
-            if (shopResult.error) {
-                console.error('Error loading shop_settings:', shopResult.error);
-                throw shopResult.error;
-            }
-
-            if (reviewsResult.error) {
-                console.error('Error loading reviews:', reviewsResult.error);
-                throw reviewsResult.error;
-            }
-
-            if (shopResult.data) {
-                const s = shopResult.data;
-                shopData = {
-                    name: s.name || DEFAULT_SHOP_DATA.name,
-                    description: s.description || DEFAULT_SHOP_DATA.description,
-                    logo: s.logo_url || DEFAULT_SHOP_DATA.logo,
-                    fbName: s.fb_name || DEFAULT_SHOP_DATA.fbName,
-                    fbUrl: s.fb_url || DEFAULT_SHOP_DATA.fbUrl,
-                    igName: s.ig_name || DEFAULT_SHOP_DATA.igName,
-                    igUrl: s.ig_url || DEFAULT_SHOP_DATA.igUrl,
-                    requireApproval: Boolean(s.require_approval)
-                };
-            } else {
-                shopData = { ...DEFAULT_SHOP_DATA };
-            }
-
-            if (Array.isArray(reviewsResult.data)) {
-                reviewsData = reviewsResult.data.map(row => ({
-                    id: row.id,
-                    name: row.name || 'ลูกค้าคนพิเศษ',
-                    rating: Number(row.rating) || 5,
-                    tag: row.tag || '🛍️ บริการของร้าน Yai Nori',
-                    comment: row.comment || '',
-                    date: formatThaiDate(row.created_at),
-                    image: row.image_url || '',
-                    reply: row.reply || '',
-                    approved: Boolean(row.approved)
-                }));
-            } else {
-                reviewsData = [];
-            }
-
-            renderShopHeader();
-            renderStatsAndReviews();
-        }
-
-        async function refreshAllData() {
-            const btn = document.getElementById('btnRefreshData');
-            if (btn) btn.disabled = true;
-            try {
-                await fetchAllDataFromSupabase();
-                showToast('อัปเดตข้อมูลล่าสุดจากระบบแล้วค่ะ ✨', 'purple');
-            } catch (err) {
-                showToast('โหลดข้อมูลไม่สำเร็จ กรุณาตรวจสอบตารางใน Supabase ค่ะ 🥺', 'pink');
-            } finally {
-                if (btn) btn.disabled = false;
-            }
-        }
-
-        function formatThaiDate(isoString) {
-            if (!isoString) return 'เมื่อสักครู่';
-            const date = new Date(isoString);
-            if (isNaN(date.getTime())) return 'เมื่อสักครู่';
-
-            const now = new Date();
-            const diffSec = Math.floor((now - date) / 1000);
-
-            if (diffSec < 60) return 'เมื่อสักครู่';
-            const diffMin = Math.floor(diffSec / 60);
-            if (diffMin < 60) return `${diffMin} นาทีที่แล้ว`;
-            const diffHr = Math.floor(diffMin / 60);
-            if (diffHr < 24 && now.getDate() === date.getDate()) {
-                return `วันนี้ • ${date.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })} น.`;
-            }
-
-            return date.toLocaleDateString('th-TH', {
-                day: 'numeric',
-                month: 'short',
-                year: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-            }) + ' น.';
-        }
-
-        function validateImageFile(file) {
-            if (!file) return { valid: false, message: 'ไม่พบไฟล์รูปภาพ' };
-            if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
-                return { valid: false, message: 'รองรับเฉพาะไฟล์รูปภาพ JPG, PNG, WEBP หรือ GIF เท่านั้นนะคะ 🥺' };
-            }
-            if (file.size > MAX_IMAGE_SIZE_BYTES) {
-                const sizeMB = (file.size / (1024 * 1024)).toFixed(1);
-                return { valid: false, message: `ไฟล์รูปมีขนาด ${sizeMB}MB (จำกัดไม่เกิน 3MB นะคะ) 🥺` };
-            }
-            return { valid: true };
-        }
-
-        async function uploadImageToStorage(file, folderName = 'reviews') {
-            if (!initSupabaseClient()) {
-                throw new Error('ยังไม่ได้เชื่อมต่อฐานข้อมูล');
-            }
-            const check = validateImageFile(file);
-            if (!check.valid) {
-                throw new Error(check.message);
-            }
-
-            const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
-            const uniquePath = `${folderName}/${Date.now()}_${Math.random().toString(36).substring(2, 9)}.${ext}`;
-
-            const { error: uploadError } = await supabaseClient.storage
-                .from(STORAGE_BUCKET)
-                .upload(uniquePath, file, {
-                    cacheControl: '3600',
-                    upsert: false
-                });
-
-            if (uploadError) {
-                throw new Error('อัปโหลดรูปภาพไม่สำเร็จ กรุณาตรวจสอบ Storage Bucket (yainori-media)');
-            }
-
-            const { data } = supabaseClient.storage
-                .from(STORAGE_BUCKET)
-                .getPublicUrl(uniquePath);
-
-            return data.publicUrl;
-        }
 
         function updateSplashStage(completedSteps, totalSteps, statusMessage) {
             const bar = document.getElementById('splashProgressBar');
@@ -1092,6 +882,7 @@
             if (isSplashRunning) return;
             isSplashRunning = true;
 
+            // Count visible time only after the browser has painted the existing splash.
             await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
             const startTime = performance.now();
             const splashScreen = document.getElementById('splashScreen');
@@ -1119,11 +910,12 @@
 
             try {
                 updateSplashStage(1, totalSteps, 'ยินดีต้อนรับน้า ♡');
-                initSupabaseClient();
-                await checkAdminSession();
+                loadStateFromStorage();
+                await new Promise(r => setTimeout(r, 450));
 
                 updateSplashStage(2, totalSteps, 'กำลังเตรียมร้านให้นะคะ');
-                await fetchAllDataFromSupabase();
+                renderShopHeader();
+                renderStatsAndReviews();
                 setMascotMessage('default');
                 if (window.lucide) {
                     lucide.createIcons();
@@ -1132,7 +924,7 @@
                 const imageResults = await Promise.all([
                     preloadEssentialImage(shopData.logo || DEFAULT_SHOP_DATA.logo, 1200),
                     preloadEssentialImage('https://i.postimg.cc/QxgFpRXp/IMG-3742.png', 1200),
-                    new Promise(r => setTimeout(r, 350))
+                    new Promise(r => setTimeout(r, 500))
                 ]);
 
                 updateSplashStage(3, totalSteps, 'ใกล้พร้อมแล้วค่ะ ✨');
@@ -1151,11 +943,8 @@
                 }
             } catch (err) {
                 clearTimeout(splashSlowTimer);
-                renderShopHeader();
-                renderStatsAndReviews();
-                if (window.lucide) lucide.createIcons();
                 if (slowBox) {
-                    if (errorMsg) errorMsg.textContent = 'โหลดข้อมูลจากฐานข้อมูลไม่สำเร็จ กรุณาตรวจสอบว่าได้รันคำสั่ง SQL บน Supabase แล้วนะคะ 🥺';
+                    if (errorMsg) errorMsg.textContent = 'เกิดข้อผิดพลาดในการเตรียมข้อมูล ลองใหม่อีกครั้งนะคะ 🥺';
                     slowBox.classList.remove('hidden');
                 }
             } finally {
@@ -1172,7 +961,7 @@
             splashScreen.classList.add('splash-fade-out');
             splashDismissTimer = setTimeout(() => {
                 splashScreen.style.display = 'none';
-            }, 300);
+            }, 300); // Fade out นุ่มนวล 0.3 วินาที
         }
 
         function retrySplashLoading() {
@@ -1180,22 +969,39 @@
             runRealBootSequence();
         }
 
+        // 🚀 รันหน้าต้อนรับ (Splash Screen) อัตโนมัติทันทีทุกครั้งที่เปิดลิงก์หรือรีเฟรชหน้าเว็บ
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', runRealBootSequence);
         } else {
             runRealBootSequence();
         }
 
+        // Returning from browser history does not restart the splash or music.
+
+        function loadStateFromStorage() {
+            try {
+                const savedShop = localStorage.getItem('yainori_shop_demo');
+                const savedReviews = localStorage.getItem('yainori_reviews_demo');
+                shopData = savedShop ? JSON.parse(savedShop) : { ...DEFAULT_SHOP_DATA };
+                reviewsData = savedReviews ? JSON.parse(savedReviews) : [...DEFAULT_REVIEWS];
+            } catch (e) {
+                shopData = { ...DEFAULT_SHOP_DATA };
+                reviewsData = [...DEFAULT_REVIEWS];
+            }
+        }
+
+        function saveStateToStorage() {
+            try {
+                localStorage.setItem('yainori_shop_demo', JSON.stringify(shopData));
+                localStorage.setItem('yainori_reviews_demo', JSON.stringify(reviewsData));
+            } catch (e) {
+                console.warn('LocalStorage error');
+            }
+        }
+
         function renderShopHeader() {
-            const logoUrl = shopData.logo || DEFAULT_SHOP_DATA.logo;
-            document.getElementById('shopLogoImg').src = logoUrl;
-            const splashLogo = document.getElementById('splashLogoImg');
-            if (splashLogo) splashLogo.src = logoUrl;
-
+            document.getElementById('shopLogoImg').src = shopData.logo || DEFAULT_SHOP_DATA.logo;
             document.getElementById('shopNameDisplay').textContent = shopData.name;
-            const splashTitle = document.getElementById('splashShopTitle');
-            if (splashTitle) splashTitle.textContent = shopData.name;
-
             document.getElementById('shopDescDisplay').textContent = shopData.description;
             
             const fbLink = document.getElementById('shopFbLink');
@@ -1230,10 +1036,8 @@
             }
             starContainer.innerHTML = starsHtml;
 
-            const isAdminView = (currentMode === 'admin' && isAuthorizedAdmin(currentAdminUser));
-
             let visibleReviews = reviewsData.filter(r => {
-                if (!isAdminView && !r.approved) return false;
+                if (currentMode === 'customer' && !r.approved) return false;
                 if (currentFilter === 'all') return true;
                 if (currentFilter === 'withImage') return !!r.image;
                 return Number(r.rating) === Number(currentFilter);
@@ -1264,19 +1068,17 @@
                     ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-100 text-amber-700 border border-amber-200">⏳ รออนุมัติ</span>` 
                     : '';
 
-                const encodedImg = encodeURIComponent(review.image || '');
-                const encodedCaption = encodeURIComponent(`รีวิวจาก ${review.name} (${review.tag || 'บริการของร้าน'})`);
+                const safeImgUrl = review.image ? review.image.replace(/'/g, "\\'") : '';
+                const safeCaption = `รีวิวจาก ${escapeHtml(review.name)} (${escapeHtml(review.tag || 'บริการของร้าน')})`.replace(/'/g, "\\'");
                 const photoBadgeBtn = review.image ? `
                     <button type="button" 
-                            onclick="openLightboxEncoded('${encodedImg}', '${encodedCaption}')"
+                            onclick="openLightbox('${safeImgUrl}', '${safeCaption}')"
                             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-pink-100/90 to-purple-100/90 hover:from-pink-200 hover:to-purple-200 text-pink-600 border border-pink-200/80 shadow-sm text-[11px] font-semibold transition transform hover:scale-105 cursor-pointer shrink-0"
                             title="คลิกเพื่อดูรูปภาพขนาดเต็ม">
                         <span>📸</span>
                         <span>ดูรูปแนบ</span>
                     </button>
                 ` : '';
-
-                const isBusy = busyReviewIds.has(review.id);
 
                 return `
                 <article class="w-full sm:w-[70%] md:w-[66%] ${alignmentClass} transition-all duration-300 hover:-translate-y-0.5">
@@ -1313,23 +1115,23 @@
                         ${review.reply ? `
                         <div class="mt-2.5 bg-gradient-to-r from-pink-50/90 to-purple-50/90 px-3 py-2 rounded-xl border border-pink-200/60 text-xs">
                             <p class="font-heading font-semibold text-pink-600 flex items-center gap-1">
-                                <span>👑 ตอบกลับจาก ${escapeHtml(shopData.name)}:</span>
+                                <span>👑 ตอบกลับจาก Yai Nori:</span>
                             </p>
                             <p class="text-pastel-text/90 mt-0.5">${escapeHtml(review.reply)}</p>
                         </div>
                         ` : ''}
 
-                        ${isAdminView ? `
+                        ${currentMode === 'admin' ? `
                         <div class="mt-3 pt-2 border-t border-purple-100 flex flex-wrap items-center justify-between gap-1.5">
                             <div class="flex items-center gap-1">
-                                <button ${isBusy ? 'disabled' : ''} onclick="toggleApproveReview(${review.id})" class="px-2.5 py-0.5 rounded-full text-[11px] font-medium transition cursor-pointer disabled:opacity-50 ${review.approved ? 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200' : 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-sm'}">
+                                <button onclick="toggleApproveReview(${review.id})" class="px-2.5 py-0.5 rounded-full text-[11px] font-medium transition cursor-pointer ${review.approved ? 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200' : 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-sm'}">
                                     ${review.approved ? 'ซ่อนรีวิว' : '✓ อนุมัติ'}
                                 </button>
-                                <button ${isBusy ? 'disabled' : ''} onclick="toggleReplyBox(${review.id})" class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 transition cursor-pointer disabled:opacity-50">
+                                <button onclick="toggleReplyBox(${review.id})" class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 transition cursor-pointer">
                                     💬 ${review.reply ? 'แก้คำตอบ' : 'ตอบกลับ'}
                                 </button>
                             </div>
-                            <button ${isBusy ? 'disabled' : ''} onclick="deleteReview(${review.id})" class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 transition flex items-center gap-1 cursor-pointer disabled:opacity-50">
+                            <button onclick="deleteReview(${review.id})" class="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-red-50 text-red-600 hover:bg-red-100 border border-red-200 transition flex items-center gap-1 cursor-pointer">
                                 🗑️ ลบ
                             </button>
                         </div>
@@ -1338,7 +1140,7 @@
                             <div class="flex gap-1.5">
                                 <input type="text" id="replyInput-${review.id}" value="${escapeHtml(review.reply || '')}" placeholder="พิมพ์ข้อความขอบคุณลูกค้า..." 
                                        class="flex-1 px-2.5 py-1 rounded-lg border border-purple-200 text-xs outline-none focus:border-pink-400 bg-white">
-                                <button id="replySaveBtn-${review.id}" onclick="saveAdminReply(${review.id})" class="px-3 py-1 rounded-lg bg-pink-500 hover:bg-pink-600 disabled:opacity-50 text-white text-xs font-semibold transition cursor-pointer">
+                                <button onclick="saveAdminReply(${review.id})" class="px-3 py-1 rounded-lg bg-pink-500 hover:bg-pink-600 text-white text-xs font-semibold transition cursor-pointer">
                                     บันทึก
                                 </button>
                             </div>
@@ -1354,81 +1156,7 @@
             }
         }
 
-        function openAdminLoginModal() {
-            const modal = document.getElementById('adminLoginModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeAdminLoginModal() {
-            const modal = document.getElementById('adminLoginModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        async function handleAdminLogin(event) {
-            event.preventDefault();
-            if (isLoggingIn) return;
-
-            const email = document.getElementById('adminEmailInput').value.trim();
-            const password = document.getElementById('adminPasswordInput').value;
-            const submitBtn = document.getElementById('adminLoginSubmitBtn');
-
-            isLoggingIn = true;
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'กำลังเข้าสู่ระบบ...';
-
-            try {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({
-                    email,
-                    password
-                });
-
-                if (error) throw error;
-
-                if (!isAuthorizedAdmin(data.user)) {
-                    await supabaseClient.auth.signOut();
-                    throw new Error('UNAUTHORIZED_UID');
-                }
-
-                document.getElementById('adminLoginForm').reset();
-                closeAdminLoginModal();
-                applyAdminAuthState(data.user, true);
-                switchMode('admin', true);
-                await fetchAllDataFromSupabase();
-                showToast('เข้าสู่ระบบแอดมินสำเร็จ ยินดีต้อนรับค่ะ 👑', 'purple');
-            } catch (err) {
-                if (err && err.message === 'UNAUTHORIZED_UID') {
-                    showToast('บัญชีนี้ไม่ใช่ UID แอดมินที่ได้รับอนุญาตค่ะ 🥺', 'pink');
-                } else {
-                    showToast('อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่นะคะ 🥺', 'pink');
-                }
-            } finally {
-                isLoggingIn = false;
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'เข้าสู่ระบบ';
-            }
-        }
-
-        async function handleAdminLogout() {
-            if (!supabaseClient) return;
-            try {
-                await supabaseClient.auth.signOut();
-                applyAdminAuthState(null, true);
-                switchMode('customer', true);
-                await fetchAllDataFromSupabase();
-                showToast('ออกจากระบบแอดมินเรียบร้อยค่ะ 🎀', 'pink');
-            } catch (err) {
-                showToast('เกิดข้อผิดพลาดในการออกจากระบบค่ะ', 'pink');
-            }
-        }
-
-        function switchMode(mode, silent = false) {
-            if (mode === 'admin' && !isAuthorizedAdmin(currentAdminUser)) {
-                openAdminLoginModal();
-                return;
-            }
-
+        function switchMode(mode) {
             currentMode = mode;
             const btnCustomer = document.getElementById('btnCustomerMode');
             const btnAdmin = document.getElementById('btnAdminMode');
@@ -1436,20 +1164,20 @@
             const adminReviewControls = document.getElementById('adminReviewControls');
             const adminOnlyBtns = document.querySelectorAll('.admin-only');
 
-            if (mode === 'admin' && isAuthorizedAdmin(currentAdminUser)) {
+            if (mode === 'admin') {
                 btnAdmin.className = 'px-3.5 py-1 rounded-full text-xs sm:text-sm font-medium transition-all bg-purple-600 text-white shadow-sm flex items-center gap-1.5 cursor-pointer';
                 btnCustomer.className = 'px-3.5 py-1 rounded-full text-xs sm:text-sm font-medium transition-all text-pastel-muted hover:text-pink-600 flex items-center gap-1.5 cursor-pointer';
                 adminBanner.classList.remove('hidden');
                 adminReviewControls.classList.remove('hidden');
                 adminOnlyBtns.forEach(el => el.classList.remove('hidden'));
-                if (!silent) showToast('เข้าสู่โหมดจัดการหลังบ้าน (แอดมิน) 👑', 'purple');
+                showToast('เข้าสู่โหมดจัดการหลังบ้าน (Admin Demo) 👑', 'purple');
             } else {
                 btnCustomer.className = 'px-3.5 py-1 rounded-full text-xs sm:text-sm font-medium transition-all bg-white text-pink-600 shadow-sm flex items-center gap-1.5 cursor-pointer';
                 btnAdmin.className = 'px-3.5 py-1 rounded-full text-xs sm:text-sm font-medium transition-all text-pastel-muted hover:text-purple-700 flex items-center gap-1.5 cursor-pointer';
                 adminBanner.classList.add('hidden');
                 adminReviewControls.classList.add('hidden');
                 adminOnlyBtns.forEach(el => el.classList.add('hidden'));
-                if (!silent) showToast('สลับเป็นมุมมองลูกค้าเรียบร้อยค่ะ 🎀', 'pink');
+                showToast('สลับเป็นมุมมองลูกค้าเรียบร้อยค่ะ 🎀', 'pink');
             }
 
             renderStatsAndReviews();
@@ -1508,36 +1236,30 @@
         function previewCustomerImage(event) {
             const file = event.target.files[0];
             if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                tempUploadedImage = e.target.result;
+                document.getElementById('imagePreview').src = tempUploadedImage;
+                document.getElementById('imagePreviewWrapper').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
 
-            const validation = validateImageFile(file);
-            if (!validation.valid) {
-                showToast(validation.message, 'pink');
-                event.target.value = '';
-                return;
-            }
-
-            selectedCustomerFile = file;
-            if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
-            previewObjectUrl = URL.createObjectURL(file);
-
-            document.getElementById('imagePreview').src = previewObjectUrl;
+        function useSampleReviewImage() {
+            tempUploadedImage = 'https://placehold.co/400x300/FCE7F3/DB2777?text=Yai+Nori+Customer+Photo+(Demo)';
+            document.getElementById('imagePreview').src = tempUploadedImage;
             document.getElementById('imagePreviewWrapper').classList.remove('hidden');
+            showToast('เลือกรูปภาพตัวอย่าง Demo เรียบร้อยค่ะ 📸', 'pink');
         }
 
         function clearCustomerImage() {
-            selectedCustomerFile = null;
-            if (previewObjectUrl) {
-                URL.revokeObjectURL(previewObjectUrl);
-                previewObjectUrl = '';
-            }
+            tempUploadedImage = '';
             document.getElementById('reviewImageInput').value = '';
             document.getElementById('imagePreviewWrapper').classList.add('hidden');
         }
 
-        async function submitCustomerReview(event) {
+        function submitCustomerReview(event) {
             event.preventDefault();
-            if (isSubmittingReview) return;
-
             const name = document.getElementById('reviewerName').value.trim();
             const rating = Number(document.getElementById('selectedRating').value);
             const tagInput = document.getElementById('reviewTag').value.trim();
@@ -1550,58 +1272,36 @@
                 return;
             }
 
-            const submitBtn = document.getElementById('submitReviewBtn');
-            isSubmittingReview = true;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span>กำลังบันทึกข้อมูล...</span>';
+            const isApprovedImmediately = !shopData.requireApproval;
 
-            try {
-                let uploadedImageUrl = '';
-                if (selectedCustomerFile) {
-                    submitBtn.innerHTML = '<span>กำลังอัปโหลดรูปภาพ...</span>';
-                    uploadedImageUrl = await uploadImageToStorage(selectedCustomerFile, 'reviews');
-                }
+            const newReview = {
+                id: Date.now(),
+                name: name,
+                rating: rating,
+                tag: tag,
+                comment: comment,
+                date: 'เมื่อสักครู่',
+                image: tempUploadedImage,
+                reply: '',
+                approved: isApprovedImmediately
+            };
 
-                submitBtn.innerHTML = '<span>กำลังส่งรีวิว...</span>';
-                const isApprovedImmediately = !shopData.requireApproval;
+            reviewsData.unshift(newReview);
+            saveStateToStorage();
 
-                const { error } = await supabaseClient
-                    .from('reviews')
-                    .insert([{
-                        name: name,
-                        rating: rating,
-                        tag: tag,
-                        comment: comment,
-                        image_url: uploadedImageUrl,
-                        approved: isApprovedImmediately
-                    }]);
+            document.getElementById('reviewForm').reset();
+            clearCustomerImage();
+            closeReviewModal();
+            filterReviews('all');
 
-                if (error) throw error;
-
-                document.getElementById('reviewForm').reset();
-                clearCustomerImage();
-                closeReviewModal();
-                filterReviews('all');
-                await fetchAllDataFromSupabase();
-
-                setMascotMessage('success');
-                if (isApprovedImmediately) {
-                    showToast('ส่งรีวิวเรียบร้อยแล้ว ขอบคุณคุณหนูมากๆ นะคะ 💖', 'pink');
-                } else {
-                    showToast('ส่งรีวิวสำเร็จ! ข้อความของคุณกำลังรอแอดมินอนุมัติค่ะ ⏳', 'purple');
-                }
-
-                setTimeout(() => setMascotMessage('default'), 4000);
-            } catch (err) {
-                console.error('Submit review error:', err);
-                setMascotMessage('error');
-                showToast(err.message || 'ส่งรีวิวไม่สำเร็จ กรุณาลองใหม่อีกครั้งนะคะ 🥺', 'pink');
-            } finally {
-                isSubmittingReview = false;
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i data-lucide="send" class="w-4 h-4"></i> <span>ส่งรีวิวเลยค่ะ</span>';
-                if (window.lucide) lucide.createIcons();
+            setMascotMessage('success');
+            if (isApprovedImmediately) {
+                showToast('ส่งรีวิวเรียบร้อยแล้ว ขอบคุณคุณหนูมากๆ นะคะ 💖', 'pink');
+            } else {
+                showToast('ส่งรีวิวสำเร็จ! ข้อความของคุณกำลังรอแอดมินอนุมัติค่ะ ⏳', 'purple');
             }
+
+            setTimeout(() => setMascotMessage('default'), 4000);
         }
 
         function setMascotMessage(state) {
@@ -1628,10 +1328,6 @@
         }
 
         function openShopEditModal() {
-            if (!isAuthorizedAdmin(currentAdminUser)) {
-                openAdminLoginModal();
-                return;
-            }
             document.getElementById('editLogoUrl').value = shopData.logo;
             document.getElementById('editShopName').value = shopData.name;
             document.getElementById('editShopDesc').value = shopData.description;
@@ -1651,135 +1347,47 @@
             modal.classList.remove('flex');
         }
 
-        async function handleAdminLogoUpload(event) {
-            if (!isAuthorizedAdmin(currentAdminUser) || isUploadingLogo) return;
+        function handleAdminLogoUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
-
-            const validation = validateImageFile(file);
-            if (!validation.valid) {
-                showToast(validation.message, 'pink');
-                event.target.value = '';
-                return;
-            }
-
-            const uploadText = document.getElementById('adminLogoUploadText');
-            isUploadingLogo = true;
-            if (uploadText) uploadText.textContent = 'กำลังอัปโหลด...';
-
-            try {
-                const publicUrl = await uploadImageToStorage(file, 'logos');
-                document.getElementById('editLogoUrl').value = publicUrl;
-                showToast('อัปโหลดรูปโลโก้สำเร็จ กดบันทึกข้อมูลร้านได้เลยค่ะ ✨', 'purple');
-            } catch (err) {
-                showToast(err.message || 'อัปโหลดโลโก้ไม่สำเร็จค่ะ 🥺', 'pink');
-            } finally {
-                isUploadingLogo = false;
-                if (uploadText) uploadText.textContent = 'อัปโหลดรูปจากเครื่อง';
-                event.target.value = '';
-            }
-        }
-
-        async function saveShopInfo(event) {
-            event.preventDefault();
-            if (!isAuthorizedAdmin(currentAdminUser) || isSavingShop) return;
-
-            const saveBtn = document.getElementById('saveShopBtn');
-            isSavingShop = true;
-            saveBtn.disabled = true;
-            saveBtn.textContent = 'กำลังบันทึก...';
-
-            const payload = {
-                id: 1,
-                logo_url: document.getElementById('editLogoUrl').value.trim() || DEFAULT_SHOP_DATA.logo,
-                name: document.getElementById('editShopName').value.trim(),
-                description: document.getElementById('editShopDesc').value.trim(),
-                fb_name: document.getElementById('editFbName').value.trim(),
-                fb_url: document.getElementById('editFbUrl').value.trim(),
-                ig_name: document.getElementById('editIgName').value.trim(),
-                ig_url: document.getElementById('editIgUrl').value.trim(),
-                require_approval: Boolean(shopData.requireApproval),
-                updated_at: new Date().toISOString()
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('editLogoUrl').value = e.target.result;
+                showToast('อัปโหลดรูปโลโก้พร้อมบันทึกแล้วค่ะ ✨', 'purple');
             };
-
-            try {
-                const { error } = await supabaseClient
-                    .from('shop_settings')
-                    .upsert(payload, { onConflict: 'id' });
-
-                if (error) throw error;
-
-                await fetchAllDataFromSupabase();
-                closeShopEditModal();
-                showToast('บันทึกข้อมูลร้านและโลโก้เรียบร้อยแล้วค่ะ 👑', 'purple');
-            } catch (err) {
-                console.error('Save shop info error:', err);
-                showToast('บันทึกข้อมูลร้านไม่สำเร็จ กรุณาตรวจสอบสิทธิ์แอดมินค่ะ 🥺', 'pink');
-            } finally {
-                isSavingShop = false;
-                saveBtn.disabled = false;
-                saveBtn.textContent = 'บันทึกข้อมูลร้าน';
-            }
+            reader.readAsDataURL(file);
         }
 
-        async function toggleApprovalSetting() {
-            const toggleEl = document.getElementById('requireApprovalToggle');
-            if (!isAuthorizedAdmin(currentAdminUser) || isTogglingApproval) {
-                if (toggleEl) toggleEl.checked = !!shopData.requireApproval;
-                return;
-            }
+        function saveShopInfo(event) {
+            event.preventDefault();
+            shopData.logo = document.getElementById('editLogoUrl').value.trim() || DEFAULT_SHOP_DATA.logo;
+            shopData.name = document.getElementById('editShopName').value.trim();
+            shopData.description = document.getElementById('editShopDesc').value.trim();
+            shopData.fbName = document.getElementById('editFbName').value.trim();
+            shopData.fbUrl = document.getElementById('editFbUrl').value.trim();
+            shopData.igName = document.getElementById('editIgName').value.trim();
+            shopData.igUrl = document.getElementById('editIgUrl').value.trim();
 
-            const checked = toggleEl.checked;
-            isTogglingApproval = true;
-            toggleEl.disabled = true;
-
-            try {
-                const { error } = await supabaseClient
-                    .from('shop_settings')
-                    .update({
-                        require_approval: checked,
-                        updated_at: new Date().toISOString()
-                    })
-                    .eq('id', 1);
-
-                if (error) throw error;
-
-                shopData.requireApproval = checked;
-                showToast(checked ? 'ตั้งค่า: รีวิวใหม่ต้องรอแอดมินอนุมัติก่อนแสดง' : 'ตั้งค่า: รีวิวใหม่แสดงผลทันที', 'purple');
-            } catch (err) {
-                toggleEl.checked = !checked;
-                showToast('เปลี่ยนการตั้งค่าระบบอนุมัติไม่สำเร็จค่ะ 🥺', 'pink');
-            } finally {
-                isTogglingApproval = false;
-                toggleEl.disabled = false;
-            }
+            saveStateToStorage();
+            renderShopHeader();
+            closeShopEditModal();
+            showToast('บันทึกข้อมูลร้านและโลโก้เรียบร้อยแล้วค่ะ 👑', 'purple');
         }
 
-        async function toggleApproveReview(id) {
-            if (!isAuthorizedAdmin(currentAdminUser) || busyReviewIds.has(id)) return;
+        function toggleApprovalSetting() {
+            const checked = document.getElementById('requireApprovalToggle').checked;
+            shopData.requireApproval = checked;
+            saveStateToStorage();
+            showToast(checked ? 'ตั้งค่า: รีวิวใหม่ต้องรอแอดมินอนุมัติก่อนแสดง' : 'ตั้งค่า: รีวิวใหม่แสดงผลทันที', 'purple');
+        }
+
+        function toggleApproveReview(id) {
             const target = reviewsData.find(r => r.id === id);
             if (!target) return;
-
-            busyReviewIds.add(id);
+            target.approved = !target.approved;
+            saveStateToStorage();
             renderStatsAndReviews();
-
-            const newApprovedState = !target.approved;
-            try {
-                const { error } = await supabaseClient
-                    .from('reviews')
-                    .update({ approved: newApprovedState })
-                    .eq('id', id);
-
-                if (error) throw error;
-
-                target.approved = newApprovedState;
-                showToast(newApprovedState ? 'อนุมัติให้แสดงรีวิวหน้าเว็บแล้วค่ะ ✓' : 'ซ่อนรีวิวจากหน้าเว็บแล้วค่ะ', 'purple');
-            } catch (err) {
-                showToast('เปลี่ยนสถานะรีวิวไม่สำเร็จค่ะ 🥺', 'pink');
-            } finally {
-                busyReviewIds.delete(id);
-                renderStatsAndReviews();
-            }
+            showToast(target.approved ? 'อนุมัติให้แสดงรีวิวหน้าเว็บแล้วค่ะ ✓' : 'ซ่อนรีวิวจากหน้าเว็บแล้วค่ะ', 'purple');
         }
 
         function toggleReplyBox(id) {
@@ -1787,69 +1395,36 @@
             if (box) box.classList.toggle('hidden');
         }
 
-        async function saveAdminReply(id) {
-            if (!isAuthorizedAdmin(currentAdminUser) || busyReviewIds.has(id)) return;
+        function saveAdminReply(id) {
             const input = document.getElementById(`replyInput-${id}`);
-            const saveBtn = document.getElementById(`replySaveBtn-${id}`);
             const target = reviewsData.find(r => r.id === id);
             if (!target || !input) return;
-
-            const newReply = input.value.trim();
-            busyReviewIds.add(id);
-            if (saveBtn) {
-                saveBtn.disabled = true;
-                saveBtn.textContent = '...';
-            }
-
-            try {
-                const { error } = await supabaseClient
-                    .from('reviews')
-                    .update({ reply: newReply })
-                    .eq('id', id);
-
-                if (error) throw error;
-
-                target.reply = newReply;
-                showToast('บันทึกข้อความตอบกลับลูกค้าเรียบร้อยค่ะ 💬', 'purple');
-            } catch (err) {
-                showToast('บันทึกข้อความตอบกลับไม่สำเร็จค่ะ 🥺', 'pink');
-            } finally {
-                busyReviewIds.delete(id);
-                renderStatsAndReviews();
-            }
-        }
-
-        async function deleteReview(id) {
-            if (!isAuthorizedAdmin(currentAdminUser) || busyReviewIds.has(id)) return;
-            const target = reviewsData.find(r => r.id === id);
-            if (!target) return;
-
-            busyReviewIds.add(id);
+            target.reply = input.value.trim();
+            saveStateToStorage();
             renderStatsAndReviews();
-
-            try {
-                const { error } = await supabaseClient
-                    .from('reviews')
-                    .delete()
-                    .eq('id', id);
-
-                if (error) throw error;
-
-                reviewsData = reviewsData.filter(r => r.id !== id);
-                showToast('ลบรีวิวออกจากระบบแล้วค่ะ 🗑️', 'pink');
-            } catch (err) {
-                showToast('ลบรีวิวไม่สำเร็จค่ะ 🥺', 'pink');
-            } finally {
-                busyReviewIds.delete(id);
-                renderStatsAndReviews();
-            }
+            showToast('บันทึกข้อความตอบกลับลูกค้าเรียบร้อยค่ะ 💬', 'purple');
         }
 
-        function openLightboxEncoded(encodedSrc, encodedCaption) {
-            const imgSrc = decodeURIComponent(encodedSrc || '');
-            const caption = decodeURIComponent(encodedCaption || '');
+        function deleteReview(id) {
+            reviewsData = reviewsData.filter(r => r.id !== id);
+            saveStateToStorage();
+            renderStatsAndReviews();
+            showToast('ลบรีวิวออกจากระบบแล้วค่ะ 🗑️', 'pink');
+        }
+
+        function resetDemoData() {
+            localStorage.removeItem('yainori_shop_demo');
+            localStorage.removeItem('yainori_reviews_demo');
+            shopData = { ...DEFAULT_SHOP_DATA };
+            reviewsData = [...DEFAULT_REVIEWS];
+            renderShopHeader();
+            renderStatsAndReviews();
+            showToast('รีเซ็ตข้อมูลกลับเป็นค่าเริ่มต้นของ Demo แล้วค่ะ ✨', 'purple');
+        }
+
+        function openLightbox(imgSrc, caption) {
             document.getElementById('lightboxImg').src = imgSrc;
-            document.getElementById('lightboxCaption').textContent = caption;
+            document.getElementById('lightboxCaption').textContent = caption || '';
             const modal = document.getElementById('lightboxModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
